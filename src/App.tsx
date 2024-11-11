@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import FirstScreen from "./screens";
+import SecondScreen from "./screens/second";
 
 function App() {
+  const [text, setText] = useState("");
+  const [isVoice, setIsVoice] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: 500,
+          width: "80vw",
+          gap: 12,
+        }}
+      >
+        {!isVoice ? (
+          <FirstScreen
+            inputProps={{
+              onChange: (e) => setText(e.target.value),
+              value: text,
+            }}
+            buttonProps={{ disabled: !text, onClick: () => setIsVoice(true) }}
+          />
+        ) : (
+          <SecondScreen text={text} onBack={() => setIsVoice(false)} />
+        )}
+      </div>
     </div>
   );
 }
